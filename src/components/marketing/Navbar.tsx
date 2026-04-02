@@ -1,7 +1,6 @@
 'use client'
 import { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
-import Image from 'next/image'
 
 const NAV_LINKS = [
   { href: '/', label: 'Inicio' },
@@ -45,14 +44,12 @@ export function Navbar() {
 
         {/* Logo */}
         <Link href="/" className="shrink-0 -ml-2 md:-ml-5">
-          <Image
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
             src="/logo.png"
             alt="Centrevit"
-            width={150}
-            height={120}
-            className="h-11 md:h-16 w-auto"
-            priority
-            unoptimized
+            style={{ height: '44px', width: 'auto' }}
+            className="md:!h-16"
           />
         </Link>
 
