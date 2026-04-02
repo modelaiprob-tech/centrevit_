@@ -40,7 +40,7 @@ export function Navbar() {
         }}
       />
 
-      <div className="relative max-w-7xl mx-auto px-2 md:px-4 py-1 md:py-1 flex items-center justify-between">
+      <div className="relative max-w-7xl mx-auto px-2 md:px-4 py-1 md:py-3 flex items-center justify-between">
 
         {/* Logo */}
         <Link href="/" className="shrink-0 ml-12 md:ml-12">
@@ -49,7 +49,7 @@ export function Navbar() {
             src="/logo.png"
             alt="Centrevit"
             style={{ height: '44px', width: 'auto', display: 'block' }}
-            className="md:!h-12"
+            className="md:!h-16"
           />
         </Link>
 
