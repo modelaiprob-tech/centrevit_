@@ -40,15 +40,15 @@ export function Navbar() {
         }}
       />
 
-      <div className="relative max-w-7xl mx-auto px-2 md:px-4 py-1 md:py-2 flex items-center justify-between">
+      <div className="relative max-w-7xl mx-auto px-2 md:px-4 py-2 md:py-2 flex items-center justify-between">
 
         {/* Logo */}
-        <Link href="/" className="shrink-0 ml-2 md:-ml-5">
+        <Link href="/" className="shrink-0 ml-4 md:-ml-5">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src="/logo.png"
             alt="Centrevit"
-            style={{ height: '36px', width: 'auto', display: 'block' }}
+            style={{ height: '48px', width: 'auto', display: 'block' }}
             className="md:!h-14"
           />
         </Link>
@@ -83,7 +83,7 @@ export function Navbar() {
 
         {/* Mobile — hamburger */}
         <button
-          className="md:hidden flex flex-col justify-center gap-1.5 p-2 -mr-2 text-verde-oscuro"
+          className="md:hidden flex flex-col justify-center gap-1.5 p-2 mr-2 text-verde-oscuro"
           onClick={() => setMenuOpen(!menuOpen)}
           aria-label={menuOpen ? 'Cerrar menú' : 'Abrir menú'}
           aria-expanded={menuOpen}

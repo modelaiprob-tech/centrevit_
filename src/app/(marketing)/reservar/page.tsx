@@ -46,7 +46,7 @@ export default function ReservarPage() {
             <div className="hidden sm:block absolute top-5 left-[16.66%] right-[16.66%] h-px bg-dorado/30" />
             {PASOS_RESERVA.map((paso, i) => (
               <div key={paso.num} className="relative flex flex-col items-center text-center px-4">
-                <div className="relative z-10 w-10 h-10 rounded-full border border-dorado/40 bg-blanco flex items-center justify-center mb-3">
+                <div className="relative z-10 w-10 h-10 rounded-full bg-verde-oscuro flex items-center justify-center mb-3">
                   <span className="font-serif text-dorado text-sm font-light">{i + 1}</span>
                 </div>
                 <h3 className="font-serif text-texto text-base font-light mb-1">{paso.title}</h3>
@@ -114,7 +114,7 @@ export default function ReservarPage() {
                 </select>
               </div>
 
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-xs font-medium text-texto-muted mb-1.5 tracking-wide">
                     Fecha preferida

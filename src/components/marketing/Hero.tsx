@@ -35,7 +35,7 @@ export function Hero() {
           {/* Eyebrow */}
           <div className="flex items-center gap-3 text-dorado text-xs font-medium tracking-[0.16em] uppercase mb-6">
             <span className="h-px w-7 bg-dorado" />
-            Salud · Bienestar · Tudela, Navarra
+            <span>Salud · Bienestar<br />Tudela, Navarra</span>
           </div>
 
           {/* H1 */}
@@ -55,17 +55,11 @@ export function Hero() {
             >
               Reservar sesión <span>→</span>
             </Link>
-            <Link
-              href="/tratamientos"
-              className="text-blanco/70 hover:text-blanco text-sm flex items-center gap-2 transition-colors"
-            >
-              Ver tratamientos <span className="text-dorado">→</span>
-            </Link>
           </div>
 
           {/* Social proof badge */}
           <div
-            className="inline-flex items-center gap-3 px-5 py-2.5 rounded-full border border-white/20 cursor-pointer transition-all duration-300 hover:scale-105 group"
+            className="inline-flex items-center gap-3 px-5 py-2.5 rounded-full border border-white/20 cursor-pointer transition-all duration-300 hover:scale-105 group mt-8 md:mt-0"
             style={{
               background: 'rgba(255,255,255,0.12)',
               backdropFilter: 'blur(16px)',
@@ -73,7 +67,7 @@ export function Hero() {
               boxShadow: '0 4px 24px rgba(0,0,0,0.12), inset 0 1px 0 rgba(255,255,255,0.15)',
             }}
           >
-            <span className="text-dorado/75 group-hover:text-dorado text-sm tracking-tight transition-colors duration-300">★★★★★</span>
+            <span className="text-dorado group-hover:text-dorado-claro text-sm tracking-tight transition-colors duration-300">★★★★★</span>
             <div className="w-px h-3 bg-white/20" />
             <span className="text-blanco/85 text-xs font-light tracking-wide">Valorado por nuestros clientes · Confirmación en 24h</span>
           </div>
