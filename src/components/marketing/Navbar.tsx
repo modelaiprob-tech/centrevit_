@@ -44,12 +44,12 @@ export function Navbar() {
       <div className="relative max-w-7xl mx-auto px-2 md:px-4 py-1 md:py-2 flex items-center justify-between">
 
         {/* Logo */}
-        <Link href="/" className="shrink-0 -ml-1 md:-ml-3">
+        <Link href="/" className="shrink-0 -ml-2 md:-ml-5">
           <Image
             src="/logo.png"
             alt="Centrevit"
-            width={220}
-            height={66}
+            width={150}
+            height={120}
             className="h-11 md:h-16 w-auto"
             priority
           />
