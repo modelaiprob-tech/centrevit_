@@ -108,7 +108,7 @@ export default function CentrevitPage() {
 
           <div className="relative rounded-xl overflow-hidden" style={{ aspectRatio: '3/4' }}>
             <Image
-              src="/images/Javier.png"
+              src="/images/Javier.webp"
               alt="Javier — Terapeuta en Centrevit Tudela"
               fill
               unoptimized={true}

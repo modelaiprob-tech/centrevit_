@@ -182,7 +182,7 @@ export default function ReflexologiaPodal() {
 
           <div className="relative mt-14 rounded-xl overflow-hidden" style={{ height: '400px' }}>
             <Image
-              src="/images/services/reflexologia-podal/hero.jpg"
+              src="/images/services/reflexologia-podal/hero.webp"
               alt="Sesión de Reflexología Podal en Centrevit"
               fill
               unoptimized={true}
@@ -237,7 +237,7 @@ export default function ReflexologiaPodal() {
 
             <div className="relative rounded-xl overflow-hidden order-2 lg:order-1" style={{ height: '400px' }}>
               <Image
-                src="/images/services/reflexologia-podal/sesion.jpg"
+                src="/images/services/reflexologia-podal/sesion.webp"
                 alt="Beneficios de la Reflexología Podal"
                 fill
                 unoptimized={true}

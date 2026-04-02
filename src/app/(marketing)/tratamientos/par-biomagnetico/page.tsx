@@ -81,7 +81,7 @@ export default function ParBiomagnetico() {
       {/* ── SECCIÓN 1: HERO ── */}
       <section className="relative flex items-end overflow-hidden" style={{ minHeight: '50vh' }}>
         <Image
-          src="/images/services/par-biomagnetico/hero.jpg"
+          src="/images/services/par-biomagnetico/hero.webp"
           alt="Par Biomagnético en Tudela"
           fill
           unoptimized={true}
@@ -184,7 +184,7 @@ export default function ParBiomagnetico() {
 
           <div className="relative mt-14 rounded-xl overflow-hidden" style={{ height: '400px' }}>
             <Image
-              src="/images/services/par-biomagnetico/que-es.jpg"
+              src="/images/services/par-biomagnetico/que-es.webp"
               alt="Sesión de Par Biomagnético en Centrevit"
               fill
               unoptimized={true}
@@ -240,7 +240,7 @@ export default function ParBiomagnetico() {
             {/* Placeholder imagen */}
             <div className="relative rounded-xl overflow-hidden order-2 lg:order-1" style={{ height: '400px' }}>
               <Image
-                src="/images/services/par-biomagnetico/resultado.jpg"
+                src="/images/services/par-biomagnetico/resultado.webp"
                 alt="Sesión de Par Biomagnético en Centrevit"
                 fill
                 unoptimized={true}
