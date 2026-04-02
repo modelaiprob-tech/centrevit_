@@ -8,7 +8,7 @@ export function Footer() {
         {/* Logo */}
         <div className="flex justify-center mb-6">
           <Link href="/">
-            <Image src="/logo.png" alt="Centrevit" width={160} height={60} className="h-14 w-auto opacity-90 hover:opacity-100 transition-opacity" />
+            <Image src="/logo.png" alt="Centrevit" width={150} height={120} className="h-14 w-auto opacity-90 hover:opacity-100 transition-opacity" unoptimized />
           </Link>
         </div>
 

@@ -52,6 +52,7 @@ export function Navbar() {
             height={120}
             className="h-11 md:h-16 w-auto"
             priority
+            unoptimized
           />
         </Link>
 
