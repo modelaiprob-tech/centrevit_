@@ -29,7 +29,7 @@ export function Navbar() {
   }, [])
 
   return (
-    <header className={`fixed top-1.5 left-0 right-0 z-50 px-4 md:px-8 transition-transform duration-300 ${visible ? 'translate-y-0' : '-translate-y-full'}`}>
+    <header className={`fixed top-1.5 left-0 right-0 z-50 px-4 md:px-8 transition-transform duration-300 overflow-hidden ${visible ? 'translate-y-0' : '-translate-y-full'}`}>
 
       {/* Fondo crema flotante — siempre visible */}
       <div
@@ -48,8 +48,8 @@ export function Navbar() {
           <img
             src="/logo.png"
             alt="Centrevit"
-            style={{ height: '44px', width: 'auto' }}
-            className="md:!h-16"
+            style={{ height: '36px', width: 'auto', display: 'block' }}
+            className="md:!h-14"
           />
         </Link>
 
