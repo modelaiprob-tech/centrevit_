@@ -43,7 +43,7 @@ export function Navbar() {
       <div className="relative max-w-7xl mx-auto px-2 md:px-4 py-1 md:py-1 flex items-center justify-between">
 
         {/* Logo */}
-        <Link href="/" className="shrink-0 ml-8 md:ml-8">
+        <Link href="/" className="shrink-0 ml-12 md:ml-12">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src="/logo.png"
