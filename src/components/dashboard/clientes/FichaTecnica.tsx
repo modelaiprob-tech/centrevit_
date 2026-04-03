@@ -1,8 +1,11 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useTransition } from 'react'
+import { useRouter } from 'next/navigation'
 import * as Tabs from '@radix-ui/react-tabs'
 import { StatusBadge } from '../ui/StatusBadge'
+import { actualizarFichaTecnica } from '@/app/(dashboard)/admin/clientes/actions'
+import { marcarSeguimientoRealizado } from '@/app/(dashboard)/admin/reservas/actions'
 
 interface FichaTecnicaProps {
   cliente: any
@@ -10,28 +13,48 @@ interface FichaTecnicaProps {
 }
 
 export function FichaTecnica({ cliente, bookings }: FichaTecnicaProps) {
+  const router = useRouter()
   const [isSaving, setIsSaving] = useState(false)
   const [savedText, setSavedText] = useState('')
+  const [isPending, startTransition] = useTransition()
 
-  const handleSave = async (e: React.FormEvent) => {
+  const handleSave = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
+    const form = e.currentTarget
+    const data = {
+      allergies:     (form.elements.namedItem('allergies')     as HTMLTextAreaElement).value,
+      medical_notes: (form.elements.namedItem('medical_notes') as HTMLTextAreaElement).value,
+      general_notes: (form.elements.namedItem('general_notes') as HTMLTextAreaElement).value,
+    }
     setIsSaving(true)
-    // simulate server action
-    setTimeout(() => {
-      setIsSaving(false)
+    try {
+      await actualizarFichaTecnica(cliente.id, data)
       setSavedText('Guardado')
+      router.refresh()
+    } catch {
+      setSavedText('Error al guardar')
+    } finally {
+      setIsSaving(false)
       setTimeout(() => setSavedText(''), 2000)
-    }, 1000)
+    }
   }
+
+  const handleMarcarSeguimiento = (bookingId: string) => {
+    startTransition(async () => {
+      await marcarSeguimientoRealizado(bookingId)
+    })
+  }
+
+  const seguimientos = bookings.filter(b => b.followup_date !== null)
 
   return (
     <Tabs.Root defaultValue="datos" className="flex flex-col font-sans">
       <Tabs.List className="flex shrink-0 border-b border-crema-oscuro mb-6 space-x-1">
         {[
-          { id: 'datos', label: 'Datos personales' },
-          { id: 'ficha', label: 'Ficha técnica' },
-          { id: 'historial', label: 'Historial sesiones' },
-          { id: 'seguimientos', label: 'Seguimientos' }
+          { id: 'datos',        label: 'Datos personales' },
+          { id: 'ficha',        label: 'Ficha técnica' },
+          { id: 'historial',    label: 'Historial sesiones' },
+          { id: 'seguimientos', label: `Seguimientos${seguimientos.length ? ` (${seguimientos.length})` : ''}` },
         ].map(tab => (
           <Tabs.Trigger
             key={tab.id}
@@ -67,11 +90,6 @@ export function FichaTecnica({ cliente, bookings }: FichaTecnicaProps) {
               <span className="text-texto capitalize">{cliente.source || '-'}</span>
             </div>
           </div>
-          <div className="mt-8">
-            <button className="px-4 py-2 border border-crema-oscuro rounded-md text-sm font-medium text-texto hover:bg-crema transition-colors">
-              Editar datos
-            </button>
-          </div>
         </div>
       </Tabs.Content>
 
@@ -80,29 +98,32 @@ export function FichaTecnica({ cliente, bookings }: FichaTecnicaProps) {
           <div className="bg-blanco border border-crema-oscuro rounded-lg p-6 space-y-4">
             <div>
               <label className="block text-sm font-medium text-texto mb-2">Alergias y contraindicaciones</label>
-              <textarea 
+              <textarea
+                name="allergies"
                 defaultValue={cliente.allergies || ''}
                 className="w-full p-3 bg-crema/30 border border-crema-oscuro rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-verde/20 focus:border-verde min-h-[100px]"
               />
             </div>
             <div>
               <label className="block text-sm font-medium text-texto mb-2">Notas médicas relevantes</label>
-              <textarea 
+              <textarea
+                name="medical_notes"
                 defaultValue={cliente.medical_notes || ''}
                 className="w-full p-3 bg-crema/30 border border-crema-oscuro rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-verde/20 focus:border-verde min-h-[100px]"
               />
             </div>
             <div>
               <label className="block text-sm font-medium text-texto mb-2">Notas generales del terapeuta</label>
-              <textarea 
+              <textarea
+                name="general_notes"
                 defaultValue={cliente.general_notes || ''}
                 className="w-full p-3 bg-crema/30 border border-crema-oscuro rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-verde/20 focus:border-verde min-h-[100px]"
               />
             </div>
           </div>
           <div className="flex items-center gap-4">
-            <button 
-              type="submit" 
+            <button
+              type="submit"
               disabled={isSaving}
               className="bg-verde hover:bg-verde-medio text-blanco px-6 py-2 rounded-md font-sans text-sm transition-colors disabled:opacity-50"
             >
@@ -136,7 +157,7 @@ export function FichaTecnica({ cliente, bookings }: FichaTecnicaProps) {
                     <td className="px-4 py-3">{new Date(booking.starts_at).toLocaleDateString('es-ES')}</td>
                     <td className="px-4 py-3">{booking.services?.name}</td>
                     <td className="px-4 py-3"><StatusBadge status={booking.status as any} /></td>
-                    <td className="px-4 py-3">{booking.price_charged ? `${booking.price_charged}€` : '-'}</td>
+                    <td className="px-4 py-3">{booking.price_charged ? `${Number(booking.price_charged).toFixed(2)}€` : '-'}</td>
                     <td className="px-4 py-3 text-texto-muted max-w-[200px] truncate">{booking.internal_notes || '-'}</td>
                   </tr>
                 ))
@@ -147,9 +168,38 @@ export function FichaTecnica({ cliente, bookings }: FichaTecnicaProps) {
       </Tabs.Content>
 
       <Tabs.Content value="seguimientos" className="outline-none">
-        <div className="bg-blanco border border-crema-oscuro rounded-lg p-6 text-center text-sm text-texto-muted">
-          Sección de seguimientos pendientes y realizados (Shell)
-        </div>
+        {seguimientos.length === 0 ? (
+          <div className="bg-blanco border border-crema-oscuro rounded-lg p-8 text-center text-sm text-texto-muted">
+            No hay seguimientos pendientes para este cliente
+          </div>
+        ) : (
+          <div className="space-y-3">
+            {seguimientos.map((b: any) => (
+              <div key={b.id} className={`bg-blanco border rounded-lg p-4 flex items-center justify-between gap-4 ${b.followup_done ? 'border-crema-oscuro opacity-60' : 'border-dorado/40'}`}>
+                <div className="flex-1 text-sm font-sans">
+                  <p className="font-medium text-texto">{b.services?.name}</p>
+                  <p className="text-texto-muted text-xs mt-0.5">
+                    Sesión: {new Date(b.starts_at).toLocaleDateString('es-ES')}
+                    {b.followup_date && ` · Seguimiento: ${new Date(b.followup_date).toLocaleDateString('es-ES')}`}
+                  </p>
+                </div>
+                <div className="shrink-0">
+                  {b.followup_done ? (
+                    <span className="text-xs text-verde font-medium px-3 py-1 bg-verde-claro/20 rounded-full">Realizado</span>
+                  ) : (
+                    <button
+                      onClick={() => handleMarcarSeguimiento(b.id)}
+                      disabled={isPending}
+                      className="text-xs bg-crema hover:bg-crema-oscuro text-texto px-3 py-1.5 rounded-md transition-colors border border-crema-oscuro disabled:opacity-50"
+                    >
+                      Marcar realizado
+                    </button>
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
       </Tabs.Content>
     </Tabs.Root>
   )

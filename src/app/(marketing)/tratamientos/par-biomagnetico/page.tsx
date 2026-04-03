@@ -85,6 +85,7 @@ export default function ParBiomagnetico() {
           alt="Par Biomagnético en Tudela"
           fill
           unoptimized={true}
+          sizes="100vw"
           className="object-cover"
           priority
         />
@@ -188,6 +189,7 @@ export default function ParBiomagnetico() {
               alt="Sesión de Par Biomagnético en Centrevit"
               fill
               unoptimized={true}
+              sizes="(max-width: 1024px) 100vw, 60vw"
               className="object-cover"
             />
           </div>

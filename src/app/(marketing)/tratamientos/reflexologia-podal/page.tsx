@@ -85,6 +85,7 @@ export default function ReflexologiaPodal() {
           alt="Reflexología Podal en Tudela"
           fill
           unoptimized={true}
+          sizes="100vw"
           className="object-cover"
           priority
         />
@@ -182,10 +183,11 @@ export default function ReflexologiaPodal() {
 
           <div className="relative mt-14 rounded-xl overflow-hidden" style={{ height: '400px' }}>
             <Image
-              src="/images/services/reflexologia-podal/hero.webp"
+              src="/images/services/reflexologia-podal/hero.jpg"
               alt="Sesión de Reflexología Podal en Centrevit"
               fill
               unoptimized={true}
+              sizes="(max-width: 1024px) 100vw, 60vw"
               className="object-cover"
             />
           </div>

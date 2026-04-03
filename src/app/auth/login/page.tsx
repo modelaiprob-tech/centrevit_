@@ -20,10 +20,7 @@ export default function LoginPage() {
     setLoading(true)
     setError(null)
 
-    const { error } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    })
+    const { error } = await supabase.auth.signInWithPassword({ email, password })
 
     if (error) {
       setError('Credenciales incorrectas')
@@ -35,19 +32,21 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen bg-verde-oscuro flex flex-col items-center justify-center p-4">
-      <div className="mb-8">
-        <Image
-          src="/logo.png"
-          alt="Centrevit"
-          width={100}
-          height={30}
-          className="w-auto h-6 object-contain brightness-0 invert"
-          priority
-        />
-      </div>
+    <div className="min-h-screen bg-crema flex flex-col items-center justify-center p-4">
+      <div className="w-full max-w-sm bg-blanco rounded-xl shadow-md p-8">
 
-      <div className="w-full max-w-sm bg-blanco rounded-xl shadow-xl p-8">
+        {/* Logo prominente */}
+        <div className="flex justify-center mb-8">
+          <Image
+            src="/logo.png"
+            alt="Centrevit"
+            width={120}
+            height={120}
+            className="w-24 h-24 object-contain"
+            priority
+          />
+        </div>
+
         <div className="text-center mb-6">
           <h1 className="font-serif text-2xl text-texto">Acceso al panel</h1>
           <p className="font-sans text-sm text-texto-muted mt-1">Solo personal autorizado</p>
@@ -61,7 +60,7 @@ export default function LoginPage() {
               required
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full p-2.5 bg-crema/30 border border-crema-oscuro rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-verde/20 focus:border-verde"
+              className="w-full p-2.5 bg-crema/40 border border-crema-oscuro rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-verde/20 focus:border-verde"
             />
           </div>
           <div>
@@ -71,24 +70,28 @@ export default function LoginPage() {
               required
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full p-2.5 bg-crema/30 border border-crema-oscuro rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-verde/20 focus:border-verde"
+              className="w-full p-2.5 bg-crema/40 border border-crema-oscuro rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-verde/20 focus:border-verde"
             />
           </div>
 
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-verde text-blanco hover:bg-verde-medio py-2.5 rounded-md text-sm transition-colors mt-2 disabled:opacity-70"
+            className="w-full bg-verde text-blanco hover:bg-verde-medio py-2.5 rounded-md text-sm font-medium transition-colors mt-2 disabled:opacity-70"
           >
             {loading ? 'Entrando...' : 'Entrar'}
           </button>
 
           {error && (
-            <p className="text-red-500 text-sm text-center bg-red-50 py-2 rounded-md mt-4">
+            <p className="text-red-500 text-sm text-center bg-red-50 py-2 rounded-md">
               {error}
             </p>
           )}
         </form>
+
+        <p className="mt-6 text-center text-xs font-sans text-texto-muted">
+          Centro de Bienestar · Tudela
+        </p>
       </div>
     </div>
   )

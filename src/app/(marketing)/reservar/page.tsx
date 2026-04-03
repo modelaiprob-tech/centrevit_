@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
-import Link from 'next/link'
 import { SectionTitle } from '@/components/ui/SectionTitle'
+import { ReservaForm } from '@/components/marketing/ReservaForm'
+import pool from '@/lib/db'
 
 export const metadata: Metadata = {
   title: 'Reservar sesión — Centrevit',
@@ -8,13 +9,24 @@ export const metadata: Metadata = {
     'Reserva tu sesión en Centrevit, Tudela. Rellena el formulario y te confirmamos en menos de 24h.',
 }
 
+export const dynamic = 'force-dynamic'
+
 const PASOS_RESERVA = [
   { num: '01', title: 'Rellena el formulario', desc: 'Cuéntanos qué síntomas quieres tratar y elige tu tratamiento.' },
   { num: '02', title: 'Te confirmamos en 24h', desc: 'Nos ponemos en contacto contigo para fijar día y hora.' },
   { num: '03', title: 'Descubre lo que tu cuerpo necesita', desc: 'Cada sesión se adapta a tu estado real.' },
 ]
 
-export default function ReservarPage() {
+async function getServicios() {
+  const { rows } = await pool.query<{ id: string; name: string; duration: number }>(
+    `SELECT id, name, duration FROM services WHERE active = true ORDER BY name`
+  )
+  return rows
+}
+
+export default async function ReservarPage() {
+  const servicios = await getServicios()
+
   return (
     <div>
 
@@ -62,102 +74,7 @@ export default function ReservarPage() {
               title="Tu sesión en"
               titleEm="Centrevit."
             />
-
-            <form className="space-y-4">
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-xs font-medium text-texto-muted mb-1.5 tracking-wide">
-                    Nombre completo
-                  </label>
-                  <input
-                    type="text"
-                    placeholder="Tu nombre"
-                    className="w-full border border-crema-oscuro rounded-sm px-3 py-2.5 text-sm text-texto bg-crema focus:outline-none focus:border-verde transition-colors"
-                  />
-                </div>
-                <div>
-                  <label className="block text-xs font-medium text-texto-muted mb-1.5 tracking-wide">
-                    Email
-                  </label>
-                  <input
-                    type="email"
-                    placeholder="tu@email.com"
-                    className="w-full border border-crema-oscuro rounded-sm px-3 py-2.5 text-sm text-texto bg-crema focus:outline-none focus:border-verde transition-colors"
-                  />
-                </div>
-              </div>
-
-              <div>
-                <label className="block text-xs font-medium text-texto-muted mb-1.5 tracking-wide">
-                  Teléfono
-                </label>
-                <input
-                  type="tel"
-                  placeholder="También por WhatsApp"
-                  className="w-full border border-crema-oscuro rounded-sm px-3 py-2.5 text-sm text-texto bg-crema focus:outline-none focus:border-verde transition-colors"
-                />
-              </div>
-
-              <div>
-                <label className="block text-xs font-medium text-texto-muted mb-1.5 tracking-wide">
-                  Tratamiento
-                </label>
-                <select className="w-full border border-crema-oscuro rounded-sm px-3 py-2.5 text-sm text-texto bg-crema focus:outline-none focus:border-verde transition-colors">
-                  <option value="">Selecciona un tratamiento</option>
-                  <option>Par Biomagnético</option>
-                  <option>Reflexología Podal</option>
-                  <option>Quiromasaje Integrador</option>
-                  <option>Presoterapia Ballancer</option>
-                  <option>Manta FHOS LED</option>
-                  <option>Método CENTREVIT (circuito completo)</option>
-                  <option>No lo sé aún — necesito orientación</option>
-                </select>
-              </div>
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-xs font-medium text-texto-muted mb-1.5 tracking-wide">
-                    Fecha preferida
-                  </label>
-                  <input
-                    type="date"
-                    className="w-full border border-crema-oscuro rounded-sm px-3 py-2.5 text-sm text-texto bg-crema focus:outline-none focus:border-verde transition-colors"
-                  />
-                </div>
-                <div>
-                  <label className="block text-xs font-medium text-texto-muted mb-1.5 tracking-wide">
-                    Horario
-                  </label>
-                  <select className="w-full border border-crema-oscuro rounded-sm px-3 py-2.5 text-sm text-texto bg-crema focus:outline-none focus:border-verde transition-colors">
-                    <option>Mañana</option>
-                    <option>Tarde</option>
-                    <option>Indiferente</option>
-                  </select>
-                </div>
-              </div>
-
-              <div>
-                <label className="block text-xs font-medium text-texto-muted mb-1.5 tracking-wide">
-                  Comentarios (opcional)
-                </label>
-                <textarea
-                  rows={3}
-                  placeholder="Cuéntanos qué síntomas quieres tratar..."
-                  className="w-full border border-crema-oscuro rounded-sm px-3 py-2.5 text-sm text-texto bg-crema focus:outline-none focus:border-verde transition-colors resize-none"
-                />
-              </div>
-
-              <button
-                type="submit"
-                className="w-full bg-verde-oscuro hover:bg-verde text-blanco font-medium text-sm py-3.5 rounded-sm transition-colors duration-200 tracking-wide"
-              >
-                Enviar solicitud
-              </button>
-
-              <p className="text-center text-xs text-texto-muted">
-                Sin compromiso. Te respondemos en menos de 24h.
-              </p>
-            </form>
+            <ReservaForm servicios={servicios} />
           </div>
         </div>
       </section>

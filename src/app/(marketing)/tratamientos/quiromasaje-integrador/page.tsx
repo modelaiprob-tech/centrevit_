@@ -85,6 +85,7 @@ export default function QuiromasajeIntegrador() {
           alt="Quiromasaje Integrador en Tudela"
           fill
           unoptimized={true}
+          sizes="100vw"
           className="object-cover"
           priority
         />
@@ -186,6 +187,7 @@ export default function QuiromasajeIntegrador() {
               alt="Sesión de Quiromasaje Integrador en Centrevit"
               fill
               unoptimized={true}
+              sizes="(max-width: 1024px) 100vw, 60vw"
               className="object-cover"
             />
           </div>

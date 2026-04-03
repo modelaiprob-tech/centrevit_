@@ -11,7 +11,7 @@ export function StatCard({ label, value, alert, sublabel }: StatCardProps) {
       <div className="text-xs font-sans text-texto-muted uppercase tracking-wide mb-2">
         {label}
       </div>
-      <div className={`text-4xl font-serif font-light ${alert && Number(value) > 0 ? 'text-dorado' : 'text-texto'}`}>
+      <div className={`text-4xl font-sans font-light ${alert && Number(value) > 0 ? 'text-dorado' : 'text-texto'}`}>
         {value}
       </div>
       {sublabel && (

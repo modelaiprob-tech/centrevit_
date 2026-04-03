@@ -39,6 +39,7 @@ export default async function TratamientoPage({ params }: Props) {
           alt={servicio.nombre}
           fill
           unoptimized={true}
+          sizes="100vw"
           className="object-cover"
           priority
         />

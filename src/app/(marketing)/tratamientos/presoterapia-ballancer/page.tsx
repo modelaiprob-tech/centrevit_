@@ -85,6 +85,7 @@ export default function PresoterapiaBallancer() {
           alt="Presoterapia Ballancer en Tudela"
           fill
           unoptimized={true}
+          sizes="100vw"
           className="object-cover"
           priority
         />
@@ -187,6 +188,7 @@ export default function PresoterapiaBallancer() {
               alt="Sesión de Presoterapia Ballancer en Centrevit"
               fill
               unoptimized={true}
+              sizes="(max-width: 1024px) 100vw, 60vw"
               className="object-cover"
             />
           </div>

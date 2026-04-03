@@ -1,8 +1,17 @@
 import { addDays, format, subWeeks, addWeeks, startOfWeek, isSameDay } from 'date-fns'
 import { es } from 'date-fns/locale'
+import Link from 'next/link'
+
+interface Booking {
+  id: string
+  starts_at: string
+  status: string
+  clients: { name: string } | null
+  services: { name: string } | null
+}
 
 interface CalendarioSemanalProps {
-  bookings: any[]
+  bookings: Booking[]
   weekStart: Date
   onChangeWeek: (date: Date) => void
 }
@@ -30,21 +39,24 @@ export function CalendarioSemanal({ bookings, weekStart, onChangeWeek }: Calenda
       <div className="grid grid-cols-7 gap-px bg-crema-oscuro border border-crema-oscuro rounded-lg overflow-hidden">
         {days.map((day, i) => {
           const isToday = isSameDay(day, today)
+          const dayBookings = bookings.filter(b => isSameDay(new Date(b.starts_at), day))
+
           return (
-            <div key={i} className={`bg-blanco min-h-[400px] ${isToday ? 'bg-verde-claro/5' : ''}`}>
-              <div className={`p-2 text-center text-sm font-sans border-b border-crema-oscuro ${isToday ? 'text-verde font-medium' : 'text-texto-muted'}`}>
+            <div key={i} className={`bg-blanco min-h-[400px] ${isToday ? 'bg-verde/[0.04]' : ''}`}>
+              <div className={`p-2 text-center text-sm font-sans border-b ${isToday ? 'bg-verde text-blanco border-verde' : 'border-crema-oscuro text-texto-muted'}`}>
                 <span className="block text-xs uppercase">{format(day, 'EEE', { locale: es })}</span>
-                <span className="block text-lg">{format(day, 'd')}</span>
+                <span className="block text-lg font-medium">{format(day, 'd')}</span>
               </div>
               <div className="p-1.5 space-y-1.5">
-                {/* Bookings mapped here */}
-                {i === 1 && (
-                  <div className="bg-dorado-claro/50 border-l-2 border-dorado p-1.5 rounded text-xs font-sans">
-                    <div className="font-medium">10:30</div>
-                    <div className="truncate">María García</div>
-                    <div className="text-texto-muted truncate">Reflexología</div>
-                  </div>
-                )}
+                {dayBookings.map(b => (
+                  <Link key={b.id} href={`/admin/reservas/${b.id}`}>
+                    <div className={`border-l-2 p-1.5 rounded text-xs font-sans cursor-pointer bg-blanco shadow-sm hover:shadow transition-shadow ${b.status === 'confirmed' ? 'border-verde' : 'border-dorado'}`}>
+                      <div className="font-medium">{format(new Date(b.starts_at), 'HH:mm')}</div>
+                      <div className="truncate">{b.clients?.name}</div>
+                      <div className="text-texto-muted truncate">{b.services?.name}</div>
+                    </div>
+                  </Link>
+                ))}
               </div>
             </div>
           )

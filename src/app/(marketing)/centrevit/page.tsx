@@ -112,6 +112,7 @@ export default function CentrevitPage() {
               alt="Javier — Terapeuta en Centrevit Tudela"
               fill
               unoptimized={true}
+              sizes="(max-width: 1024px) 100vw, 50vw"
               className="object-contain"
             />
           </div>

@@ -1,8 +1,16 @@
 import { addDays, format, subMonths, addMonths, startOfMonth, endOfMonth, startOfWeek, endOfWeek, isSameMonth, isSameDay } from 'date-fns'
 import { es } from 'date-fns/locale'
 
+interface Booking {
+  id: string
+  starts_at: string
+  status: string
+  clients: { name: string } | null
+  services: { name: string } | null
+}
+
 interface CalendarioMesProps {
-  bookings: any[]
+  bookings: Booking[]
   monthStart: Date
   onChangeMonth: (date: Date) => void
 }
@@ -47,17 +55,21 @@ export function CalendarioMes({ bookings, monthStart, onChangeMonth }: Calendari
         {days.map((d, i) => {
           const isToday = isSameDay(d, today)
           const isCurrentMonth = isSameMonth(d, monthStart)
+          const dayBookings = bookings.filter(b => isSameDay(new Date(b.starts_at), d))
+
           return (
-            <div key={i} className={`min-h-[100px] p-1.5 bg-blanco border border-crema-oscuro/50 ${!isCurrentMonth ? 'opacity-50' : ''} ${isToday ? 'bg-verde-claro/5' : ''}`}>
-              <div className={`text-right font-sans text-xs mb-1 ${isToday ? 'text-verde font-bold rounded-full w-5 h-5 flex flex-col items-center justify-center float-right bg-verde-claro/20' : 'text-texto-muted'}`}>
+            <div key={i} className={`min-h-[100px] p-1.5 bg-blanco border border-crema-oscuro/50 ${!isCurrentMonth ? 'opacity-50' : ''} ${isToday ? 'ring-2 ring-inset ring-verde' : ''}`}>
+              <div className={`text-right font-sans text-xs mb-1 ${isToday ? 'font-bold rounded-full w-5 h-5 flex flex-col items-center justify-center float-right bg-verde text-blanco' : 'text-texto-muted'}`}>
                 {format(d, 'd')}
               </div>
               <div className="clear-both space-y-1">
-                {/* Bookings mapping shell */}
-                {isCurrentMonth && d.getDate() === 15 && (
-                  <div className="bg-dorado-claro/50 border-l-2 border-dorado px-1 py-0.5 rounded text-[10px] text-texto truncate">
-                    1 cita
+                {dayBookings.slice(0, 3).map(b => (
+                  <div key={b.id} className="bg-blanco border border-crema-oscuro border-l-2 border-l-dorado shadow-sm px-1 py-0.5 rounded text-[10px] text-texto truncate">
+                    {format(new Date(b.starts_at), 'HH:mm')} {b.clients?.name}
                   </div>
+                ))}
+                {dayBookings.length > 3 && (
+                  <div className="text-[10px] text-texto-muted px-1">+{dayBookings.length - 3} más</div>
                 )}
               </div>
             </div>
