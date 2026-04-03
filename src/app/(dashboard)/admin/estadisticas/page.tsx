@@ -43,13 +43,13 @@ export default async function EstadisticasPage({ searchParams }: { searchParams:
       </div>
 
       <div className="bg-blanco border border-crema-oscuro rounded-lg p-6">
-        <h3 className="font-serif text-xl text-texto mb-6">Ingresos</h3>
+        <h3 className="font-sans font-medium text-lg text-texto mb-6">Ingresos</h3>
         <GraficaIngresos data={dataIngresos} />
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <div className="bg-blanco border border-crema-oscuro rounded-lg p-6">
-          <h3 className="font-serif text-xl text-texto mb-6">Sesiones por servicio</h3>
+          <h3 className="font-sans font-medium text-lg text-texto mb-6">Sesiones por servicio</h3>
           <GraficaServicios data={dataServicios} />
         </div>
         <div className="bg-blanco border border-crema-oscuro rounded-lg p-6 flex flex-col items-center justify-center text-sm text-texto-muted">

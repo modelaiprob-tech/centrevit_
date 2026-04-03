@@ -40,9 +40,9 @@ export default function LoginPage() {
         <Image
           src="/logo.png"
           alt="Centrevit"
-          width={200}
-          height={60}
-          className="w-auto h-12 object-contain brightness-0 invert"
+          width={100}
+          height={30}
+          className="w-auto h-6 object-contain brightness-0 invert"
           priority
         />
       </div>

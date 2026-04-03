@@ -51,7 +51,7 @@ export default async function AdminPage() {
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         <div className="lg:col-span-2 space-y-4">
-          <h2 className="font-serif text-2xl text-texto">Citas de hoy</h2>
+          <h2 className="font-sans font-medium text-lg text-texto">Citas de hoy</h2>
           <div className="bg-blanco border border-crema-oscuro rounded-lg overflow-hidden">
             <table className="w-full text-sm text-left font-sans">
               <thead className="bg-crema/50 border-b border-crema-oscuro text-texto-muted">
@@ -87,7 +87,7 @@ export default async function AdminPage() {
         </div>
 
         <div className="space-y-4">
-          <h2 className="font-serif text-2xl text-texto">Seguimientos pendientes</h2>
+          <h2 className="font-sans font-medium text-lg text-texto">Seguimientos pendientes</h2>
           <div className="bg-blanco border border-crema-oscuro rounded-lg p-4 space-y-4">
             {seguimientosPendientes?.length === 0 ? (
               <p className="text-sm font-sans text-texto-muted text-center py-4">No hay seguimientos pendientes.</p>

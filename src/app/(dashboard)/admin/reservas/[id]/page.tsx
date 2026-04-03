@@ -27,7 +27,7 @@ export default async function ReservaDetailPage({ params }: { params: { id: stri
       <div className="grid grid-cols-1 lg:grid-cols-5 gap-8">
         <div className="lg:col-span-3 space-y-6">
           <div className="bg-blanco border border-crema-oscuro rounded-lg p-6 space-y-4">
-            <h3 className="font-serif text-xl border-b border-crema-oscuro pb-2">Información de la sesión</h3>
+            <h3 className="font-sans font-medium text-lg border-b border-crema-oscuro pb-2">Información de la sesión</h3>
             <div className="grid grid-cols-2 gap-4 font-sans text-sm">
               <div>
                 <span className="text-texto-muted block mb-1">Servicio</span>
@@ -51,7 +51,7 @@ export default async function ReservaDetailPage({ params }: { params: { id: stri
           </div>
 
           <div className="bg-blanco border border-crema-oscuro rounded-lg p-6 space-y-4">
-            <h3 className="font-serif text-xl border-b border-crema-oscuro pb-2">Notas internas</h3>
+            <h3 className="font-sans font-medium text-lg border-b border-crema-oscuro pb-2">Notas internas</h3>
             <div className="font-sans text-sm">
               {reserva.internal_notes ? (
                 <p className="whitespace-pre-wrap">{reserva.internal_notes}</p>
@@ -64,7 +64,7 @@ export default async function ReservaDetailPage({ params }: { params: { id: stri
 
         <div className="lg:col-span-2 space-y-6">
           <div className="bg-verde-oscuro text-blanco rounded-lg p-6 space-y-4">
-            <h3 className="font-serif text-xl border-b border-blanco/20 pb-2">Datos del cliente</h3>
+            <h3 className="font-sans font-medium text-lg border-b border-blanco/20 pb-2">Datos del cliente</h3>
             <div className="font-sans text-sm space-y-3">
               <div>
                 <span className="text-blanco/60 block mb-1 text-xs uppercase tracking-wider">Nombre</span>

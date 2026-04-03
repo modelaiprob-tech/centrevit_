@@ -5,9 +5,10 @@ import { DashboardShell } from '@/components/dashboard/layout/DashboardShell'
 import { PageHeader } from '@/components/dashboard/ui/PageHeader'
 import { CalendarioSemanal } from '@/components/dashboard/calendario/CalendarioSemanal'
 import { CalendarioDia } from '@/components/dashboard/calendario/CalendarioDia'
+import { CalendarioMes } from '@/components/dashboard/calendario/CalendarioMes'
 
 export default function CalendarioPage() {
-  const [vista, setVista] = useState<'semana' | 'dia'>('semana')
+  const [vista, setVista] = useState<'mes' | 'semana' | 'dia'>('semana')
   const [fechaActual, setFechaActual] = useState(new Date())
 
   // mock data for shell
@@ -19,6 +20,12 @@ export default function CalendarioPage() {
         title="Calendario" 
         action={
           <div className="flex bg-crema p-1 rounded-lg border border-crema-oscuro font-sans text-sm">
+            <button 
+              onClick={() => setVista('mes')}
+              className={`px-4 py-1.5 rounded-md transition-colors ${vista === 'mes' ? 'bg-blanco text-texto shadow-sm' : 'text-texto-muted hover:text-texto'}`}
+            >
+              Mes
+            </button>
             <button 
               onClick={() => setVista('semana')}
               className={`px-4 py-1.5 rounded-md transition-colors ${vista === 'semana' ? 'bg-blanco text-texto shadow-sm' : 'text-texto-muted hover:text-texto'}`}
@@ -36,7 +43,13 @@ export default function CalendarioPage() {
       />
 
       <div className="bg-blanco border border-crema-oscuro rounded-lg p-4 custom-scrollbar">
-        {vista === 'semana' ? (
+        {vista === 'mes' ? (
+          <CalendarioMes 
+            bookings={bookings} 
+            monthStart={fechaActual} 
+            onChangeMonth={(date: Date) => setFechaActual(date)} 
+          />
+        ) : vista === 'semana' ? (
           <CalendarioSemanal 
             bookings={bookings} 
             weekStart={fechaActual} 
