@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://centrevit.es/</loc><priority>1.0</priority></url>
+  <url><loc>https://centrevit.es/tratamientos</loc><priority>0.8</priority></url>
+  <url><loc>https://centrevit.es/tratamientos/par-biomagnetico</loc><priority>0.9</priority></url>
+  <url><loc>https://centrevit.es/tratamientos/reflexologia-podal</loc><priority>0.9</priority></url>
+  <url><loc>https://centrevit.es/tratamientos/quiromasaje-integrador</loc><priority>0.9</priority></url>
+  <url><loc>https://centrevit.es/tratamientos/presoterapia-ballancer</loc><priority>0.9</priority></url>
+  <url><loc>https://centrevit.es/tratamientos/manta-fhos-led</loc><priority>0.9</priority></url>
+  <url><loc>https://centrevit.es/centrevit</loc><priority>0.7</priority></url>
+  <url><loc>https://centrevit.es/reservar</loc><priority>0.8</priority></url>
+  <url><loc>https://centrevit.es/contacto</loc><priority>0.6</priority></url>
+</urlset>
