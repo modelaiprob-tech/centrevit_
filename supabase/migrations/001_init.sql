@@ -44,10 +44,10 @@ create table public.schedules (
 );
 
 insert into public.schedules (tenant_id, day_of_week, start_time, end_time)
-select t.id, d.day, s.start::time, s.end::time
+select t.id, d.day, s.start_t::time, s.end_t::time
 from public.tenants t,
   (values (0),(1),(2),(3),(4)) as d(day),
-  (values ('09:00','14:00'),('16:00','20:00')) as s(start, end)
+  (values ('09:00','14:00'),('16:00','20:00')) as s(start_t, end_t)
 where t.slug = 'centrevit';
 
 -- SLOTS BLOQUEADOS (festivos, vacaciones, ausencias)
