@@ -29,8 +29,8 @@ export default async function SettingsPage() {
   const [{ rows: [tenant] }, { rows: horariosBD }] = await Promise.all([
     pool.query(`SELECT * FROM tenants WHERE slug = 'centrevit'`),
     pool.query(`
-      SELECT day_of_week, open_time, close_time, is_open
-      FROM business_hours
+      SELECT day_of_week, start_time AS open_time, end_time AS close_time, active AS is_open
+      FROM schedules
       WHERE tenant_id = (SELECT id FROM tenants WHERE slug = 'centrevit')
     `),
   ])
