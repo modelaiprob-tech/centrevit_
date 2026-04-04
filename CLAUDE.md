@@ -4,7 +4,7 @@
 
 # CENTREVIT — Estado del proyecto y guía para Claude
 
-> Última actualización: 2026-04-03
+> Última actualización: 2026-04-04
 
 ---
 
@@ -209,12 +209,13 @@ NEXT_PUBLIC_SITE_URL=https://centrevit.es
 ## SCHEMA DE BASE DE DATOS (resumen)
 
 ```sql
-tenants          -- Centro (slug='centrevit')
+tenants          -- Centro (slug='centrevit') — tiene columnas: phone, email, address, settings JSONB
 clients          -- Clientes (unique: tenant_id + email)
 services         -- Tratamientos (duration en minutos, followup_days)
 bookings         -- Reservas (status: pending|confirmed|done|cancelled)
 payments         -- Pagos (method: cash|card|transfer)
-business_hours   -- Horarios por día de la semana (day_of_week 0=dom..6=sab)
+schedules        -- Horarios por día de la semana (day_of_week 0=Lunes..6=Domingo, unique tenant+day)
+blocked_slots    -- Slots bloqueados (festivos, vacaciones)
 ```
 
 Relaciones clave:
@@ -295,20 +296,55 @@ WHERE b.tenant_id = $1  -- SIEMPRE filtrar por tenant
 
 ### Funcionalidad pendiente
 - [ ] Paginación real en `/admin/reservas` y `/admin/clientes`
-- [ ] Verificar y migrar columnas faltantes en `tenants` y `business_hours` para settings
 - [ ] Vista de detalle de pago (editar/eliminar)
 - [ ] Exportar datos (CSV de pagos, lista de clientes)
 - [ ] Búsqueda global en el panel
-- [ ] Widget de reservas públicas que respete horarios de `business_hours`
+- [ ] Widget de reservas públicas que respete horarios de `schedules`
 
 ### Infraestructura (antes de producción)
 - [ ] Upstash Redis para rate limiting
-- [ ] Crear índices DB en producción
-- [ ] Configurar variables de entorno en Vercel
 - [ ] Configurar cron en `vercel.json` con `CRON_SECRET`
-- [ ] Migrar PostgreSQL local a servicio cloud (Railway, Supabase DB, Neon)
 
 ### Calidad de código
 - [ ] Definir tipos TypeScript en `src/lib/types.ts` (eliminar `any`)
 - [ ] Validación cruzada en `createPaymentSchema`
 - [ ] Fallback en `ADMIN_EMAIL`
+
+---
+
+## FUTUROS CAMBIOS IMPORTANTES
+
+### ⚡ Rendimiento — pendiente de aplicar
+
+1. **Quitar `force-dynamic` donde no sea necesario**
+   - Las 11 páginas del dashboard tienen `export const dynamic = 'force-dynamic'`
+   - Páginas estables (servicios, clientes, settings) podrían usar ISR con `revalidatePath` ya existente
+   - **Riesgo:** hacerlo mal puede mostrar datos desactualizados — analizar página por página
+   - **Impacto esperado:** alto — elimina renders completos en cada visita
+
+2. **Mismatch de `day_of_week` entre `page.tsx` y `actions.ts` en settings**
+   - `settings/page.tsx` usa dow 1=Lunes (0=Domingo, estándar ISO)
+   - `settings/actions.ts` y la tabla `schedules` usan dow 0=Lunes
+   - Resultado: la página siempre muestra valores por defecto, nunca los guardados en DB
+   - **Fix:** unificar convenio — preferiblemente 0=Lunes en todo (ya es lo que usa la DB)
+
+3. **`schedules` solo tiene el turno de mañana (09:00-14:00)**
+   - La migración original tenía 2 turnos/día (mañana + tarde)
+   - Se eliminaron los duplicados para permitir UNIQUE(tenant_id, day_of_week)
+   - Si en el futuro se necesitan múltiples turnos por día, hay que rediseñar la tabla
+
+### 🔒 Seguridad — pendiente de aplicar
+
+4. **Rate limiting no funciona en multi-instancia**
+   - Usa `Map` en memoria — cada instancia de Vercel tiene el suyo
+   - **Fix:** Upstash Redis con `@upstash/ratelimit`
+
+5. **Sin protección CSRF en `/api/reservas`**
+   - Endpoint público POST sin verificación de origen
+   - **Fix:** verificar header `Origin` o añadir honeypot
+
+### 🗄️ Base de datos — estado actual (Neon)
+- DB: Neon PostgreSQL, proyecto `centrevit`, región `eu-central-1` (Frankfurt)
+- Vercel región: `fra1` (Frankfurt) — ya configurado, misma región que Neon
+- Tablas: `tenants`, `services`, `schedules`, `blocked_slots`, `clients`, `bookings`, `payments`
+- **Nota:** La tabla se llama `schedules`, NO `business_hours` — no usar ese nombre en código nuevo
