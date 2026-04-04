@@ -9,12 +9,10 @@ const pool = global.pgPool ?? new Pool({
   connectionString: process.env.DATABASE_URL,
   max: 20,
   idleTimeoutMillis: 30000,
-  connectionTimeoutMillis: 2000,
+  connectionTimeoutMillis: 5000,
   allowExitOnIdle: true,
 })
 
-if (process.env.NODE_ENV !== 'production') {
-  global.pgPool = pool
-}
+global.pgPool = pool
 
 export default pool
